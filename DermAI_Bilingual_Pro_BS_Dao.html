@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DermAI — BS Đào • Chuyên Da Liễu</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081425;--panel:#101d36;--muted:#9db0d1;--text:#e9eef9;--acc:#66e0ff;--brand:#1d8fff}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#081425,#0c1930);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto}
+.mono,code,pre{font-family:"Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.card{background:linear-gradient(180deg,#121a2b 0%,#0f182b 100%);border:1px solid #1f2b44;border-radius:16px;padding:18px;margin:14px 0;}
+h1{font-size:28px;margin:10px 0} h2{font-size:22px;border-left:4px solid var(--acc);padding-left:10px}
+nav{position:sticky;top:0;background:rgba(8,20,37,.9);border-bottom:1px solid #1b2a48;backdrop-filter:blur(6px)}
+nav .container{display:flex;gap:12px;align-items:center} nav a{color:#d7eaff;text-decoration:none;padding:10px 8px}
+.brand{display:flex;align-items:center;gap:12px} .brand img{width:40px;height:40px;border-radius:10px;border:1px solid #2b4a79}
+.lang-toggle{margin-left:auto;display:flex;gap:8px}
+button{background:#152443;color:#cfe6ff;border:1px solid #2b4a79;border-radius:10px;padding:8px 10px;cursor:pointer}
+button.active{background:var(--brand);color:#06121f}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.gallery img{width:100%;height:auto;border-radius:12px;border:1px solid #1f2b44;display:block}
+small{color:var(--muted)} .hidden{display:none} .footer{text-align:center;color:#a9b9d6;margin:20px 0}
+.print{background:linear-gradient(180deg,#21d67a,#9effa1);color:#041018;font-weight:700}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <div class="brand">
+      <img src="logo_bs_dao_128.png" alt="Logo BS Đào">
+      <strong>BS Đào • Chuyên Da Liễu</strong>
+    </div>
+    <a href="#intro">Intro</a>
+    <a href="#flow">Flow</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#laser">Laser & Light</a>
+    <a href="#therapy">Therapies</a>
+    <a href="#security">Security</a>
+    <div class="lang-toggle">
+      <button id="btn-vi" class="active">Tiếng Việt</button>
+      <button id="btn-en">English</button>
+      <button id="btn-print" class="print">In PDF</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <section id="intro" class="card">
+    <h1 class="vi">Hệ thống DermAI — Bác Sĩ Đào, Chuyên khoa Da liễu</h1>
+    <h1 class="en hidden">DermAI System — Dr. Dao, Dermatology</h1>
+    <p class="vi">Bản hướng dẫn song ngữ, dùng font <span class="mono">Source Code Pro</span> cho chỉ số và mã. Cập nhật: 2025-10-30.</p>
+    <p class="en hidden">Bilingual guide, using <span class="mono">Source Code Pro</span> for metrics and codes. Updated 2025-10-30.</p>
+  </section>
+
+  <section id="flow" class="card">
+    <h2 class="vi">Quy trình 5 bước</h2>
+    <h2 class="en hidden">Five‑step flow</h2>
+    <ol class="vi">
+      <li>Tiếp nhận & đồng thuận → hỏi bệnh cấu trúc → chụp ảnh chuẩn.</li>
+      <li>Face AI → phân đoạn/nhận diện → GAGS/MASI + heatmap.</li>
+      <li>Gợi ý liệu trình A/B/C theo BYT/JAAD/EADV + kiểm CCĐ.</li>
+      <li>Bác sĩ duyệt → quyết định cuối + lý do (audit).</li>
+      <li>Theo dõi → nhắc lịch, xử trí tác dụng phụ, so ảnh trước–sau.</li>
+    </ol>
+    <ol class="en hidden">
+      <li>Intake & consent → structured history → standardized photos.</li>
+      <li>Face AI → segmentation/detection → GAGS/MASI + heatmaps.</li>
+      <li>Planner A/B/C aligned with BYT/JAAD/EADV + safety checks.</li>
+      <li>Doctor review → final decision + rationale (audit).</li>
+      <li>Follow‑up → reminders, AE triage, before/after tracking.</li>
+    </ol>
+  </section>
+
+  <section id="gallery" class="card">
+    <h2 class="vi">Bộ ảnh mẫu (Face AI)</h2>
+    <h2 class="en hidden">Sample images (Face AI)</h2>
+    <div class="grid gallery">
+      <figure><img src="face_front.png" alt="Front"><figcaption class="vi"><small>Chính diện</small></figcaption><figcaption class="en hidden"><small>Front</small></figcaption></figure>
+      <figure><img src="face_left45.png" alt="Left45"><figcaption class="vi"><small>Nghiêng trái 45°</small></figcaption><figcaption class="en hidden"><small>Left 45°</small></figcaption></figure>
+      <figure><img src="face_right45.png" alt="Right45"><figcaption class="vi"><small>Nghiêng phải 45°</small></figcaption><figcaption class="en hidden"><small>Right 45°</small></figcaption></figure>
+      <figure><img src="region_cheek.png" alt="Cheek"><figcaption class="vi"><small>Cận vùng má</small></figcaption><figcaption class="en hidden"><small>Cheek close‑up</small></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="laser" class="card">
+    <h2 class="vi">Laser & Ánh sáng — Bộ slide tham khảo</h2>
+    <h2 class="en hidden">Laser & Light — Reference slides</h2>
+    <div class="grid gallery">
+      <figure><img src="laser_slide_00.jpg" alt="Laser slide 0"><figcaption class="vi"><small>Slide laser 1</small></figcaption><figcaption class="en hidden"><small>Laser slide 1</small></figcaption></figure>
+<figure><img src="laser_slide_01.jpg" alt="Laser slide 1"><figcaption class="vi"><small>Slide laser 2</small></figcaption><figcaption class="en hidden"><small>Laser slide 2</small></figcaption></figure>
+<figure><img src="laser_slide_02.jpg" alt="Laser slide 2"><figcaption class="vi"><small>Slide laser 3</small></figcaption><figcaption class="en hidden"><small>Laser slide 3</small></figcaption></figure>
+<figure><img src="laser_slide_03.jpg" alt="Laser slide 3"><figcaption class="vi"><small>Slide laser 4</small></figcaption><figcaption class="en hidden"><small>Laser slide 4</small></figcaption></figure>
+<figure><img src="laser_slide_04.jpg" alt="Laser slide 4"><figcaption class="vi"><small>Slide laser 5</small></figcaption><figcaption class="en hidden"><small>Laser slide 5</small></figcaption></figure>
+<figure><img src="laser_slide_05.jpg" alt="Laser slide 5"><figcaption class="vi"><small>Slide laser 6</small></figcaption><figcaption class="en hidden"><small>Laser slide 6</small></figcaption></figure>
+<figure><img src="laser_slide_06.jpg" alt="Laser slide 6"><figcaption class="vi"><small>Slide laser 7</small></figcaption><figcaption class="en hidden"><small>Laser slide 7</small></figcaption></figure>
+<figure><img src="laser_slide_07.jpg" alt="Laser slide 7"><figcaption class="vi"><small>Slide laser 8</small></figcaption><figcaption class="en hidden"><small>Laser slide 8</small></figcaption></figure>
+<figure><img src="laser_slide_08.jpg" alt="Laser slide 8"><figcaption class="vi"><small>Slide laser 9</small></figcaption><figcaption class="en hidden"><small>Laser slide 9</small></figcaption></figure>
+<figure><img src="laser_slide_09.jpg" alt="Laser slide 9"><figcaption class="vi"><small>Slide laser 10</small></figcaption><figcaption class="en hidden"><small>Laser slide 10</small></figcaption></figure>
+    </div>
+    <p class="vi"><small>Lưu ý: chỉ mang tính giáo dục; không chứa thông số thiết bị. Sử dụng máy được cấp phép.</small></p>
+    <p class="en hidden"><small>Note: educational only; no device parameters. Use authorized medical devices.</small></p>
+  </section>
+
+  <section id="therapy" class="card">
+    <h2 class="vi">Minh hoạ kỹ thuật: Sóng âm & Điện trị liệu</h2>
+    <h2 class="en hidden">Therapy demos: Ultrasound & Electrotherapy</h2>
+    <div class="grid gallery">
+      <figure><img src="therapy_ultrasound.png" alt="Ultrasound demo"><figcaption class="vi"><small>Siêu âm: truyền cơ học qua gel, điều khiển độ sâu.</small></figcaption><figcaption class="en hidden"><small>Ultrasound: mechanical via gel, depth control.</small></figcaption></figure>
+      <figure><img src="therapy_electro.png" alt="Electro demo"><figcaption class="vi"><small>Điện trị liệu/RF: năng lượng tập trung giữa điện cực.</small></figcaption><figcaption class="en hidden"><small>Electrotherapy/RF: focused energy between electrodes.</small></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="security" class="card">
+    <h2 class="vi">Bảo mật & đạo đức</h2>
+    <h2 class="en hidden">Security & ethics</h2>
+    <ul class="vi">
+      <li>AES‑256 khi lưu; TLS 1.3 khi truyền; RBAC qua Cognito; MFA.</li>
+      <li>Tách PII & dữ liệu lâm sàng; audit quyết định AI.</li>
+      <li>Không dùng Face AI cho nhận dạng danh tính.</li>
+    </ul>
+    <ul class="en hidden">
+      <li>AES‑256 at rest; TLS 1.3 in transit; RBAC via Cognito; MFA.</li>
+      <li>PII separated from clinical data; audit AI decisions.</li>
+      <li>No facial identification.</li>
+    </ul>
+  </section>
+
+  <p class="footer">© 2025 BS Đào — DermAI</p>
+</div>
+
+<script>
+const $ = (sel)=>document.querySelector(sel);
+const $$ = (sel)=>document.querySelectorAll(sel);
+const viBtn = $("#btn-vi"), enBtn = $("#btn-en"), printBtn = $("#btn-print");
+function setLang(lang){
+  const isVI = lang==='vi';
+  $$(".vi").forEach(el=>el.classList.toggle('hidden', !isVI));
+  $$(".en").forEach(el=>el.classList.toggle('hidden', isVI));
+  viBtn.classList.toggle('active', isVI);
+  enBtn.classList.toggle('active', !isVI);
+  try { localStorage.setItem('dermai_lang', lang); } catch(e) {}
+}
+viBtn.addEventListener('click', ()=>setLang('vi'));
+enBtn.addEventListener('click', ()=>setLang('en'));
+printBtn.addEventListener('click', ()=>window.print());
+try { setLang(localStorage.getItem('dermai_lang')||'vi'); } catch(e) { setLang('vi'); }
+</script>
+</body>
+</html>
