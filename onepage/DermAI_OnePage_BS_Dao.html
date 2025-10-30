@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DermAI One‑Page — BS Đào • Chuyên Da Liễu</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#071325; --panel:#0f1c33; --muted:#9db0d1; --text:#e9eef9; --acc:#66e0ff; --good:#9effa1; --warn:#ffd778; --brand:#1d8fff;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#071325,#0c1930);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto}
+.mono,code,pre{font-family:"Source Code Pro", ui-monospace, Menlo, Consolas, monospace}
+.container{max-width:1200px;margin:0 auto;padding:24px}
+.card{background:linear-gradient(180deg,#121a2b 0%,#0f182b 100%);border:1px solid #1f2b44;border-radius:16px;padding:18px;margin:14px 0;}
+h1{font-size:28px;margin:10px 0} h2{font-size:22px;border-left:4px solid var(--acc);padding-left:10px;margin-top:4px}
+nav{position:sticky;top:0;background:rgba(7,19,37,.9);border-bottom:1px solid #1b2a48;backdrop-filter:blur(6px)}
+nav .container{display:flex;gap:12px;align-items:center} nav a{color:#d7eaff;text-decoration:none;padding:10px 8px}
+.brand{display:flex;align-items:center;gap:12px} .brand img{width:40px;height:40px;border-radius:10px;border:1px solid #2b4a79}
+.lang-toggle{margin-left:auto;display:flex;gap:8px}
+button{background:#152443;color:#cfe6ff;border:1px solid #2b4a79;border-radius:10px;padding:8px 10px;cursor:pointer}
+button.active{background:var(--brand);color:#06121f}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.gallery img{width:100%;height:auto;border-radius:12px;border:1px solid #1f2b44;display:block}
+small{color:var(--muted)} .hidden{display:none}
+.footer{text-align:center;color:#a9b9d6;margin:20px 0}
+.print{background:linear-gradient(180deg,#21d67a,#9effa1);color:#041018;font-weight:700}
+.step.locked .step-body{opacity:.45;filter:grayscale(0.2)}
+.step .ackbox{display:flex;align-items:center;gap:10px;margin-top:8px}
+.progress{height:10px;background:#0e1a2f;border:1px solid #1f2b44;border-radius:999px;overflow:hidden;margin:10px 0}
+.progress .bar{height:100%;width:0;background:linear-gradient(90deg,#1d8fff,#66e0ff)}
+.kbd{padding:2px 6px;border-radius:6px;border:1px solid #2b4a79;background:#0e1a2f}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <div class="brand">
+      <img src="logo_bs_dao_128.png" alt="Logo BS Đào">
+      <strong>BS Đào • Chuyên Da Liễu</strong>
+    </div>
+    <a href="#summary">Tóm tắt</a>
+    <a href="#flow">Flow</a>
+    <a href="#faceai">Face AI</a>
+    <a href="#laser">Laser & Light</a>
+    <a href="#therapy">Therapies</a>
+    <a href="#security">Security</a>
+    <div class="lang-toggle">
+      <button id="btn-vi" class="active">Tiếng Việt</button>
+      <button id="btn-en">English</button>
+      <button id="btn-print" class="print">In PDF</button>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <section id="summary" class="card step" data-step="1">
+    <h1 class="vi">Tóm tắt nhanh (1 trang)</h1>
+    <h1 class="en hidden">Executive summary (1 page)</h1>
+    <div class="progress"><div class="bar" id="prog"></div></div>
+    <ul class="vi">
+      <li><b>Mục tiêu:</b> Chuẩn hoá quy trình khám–AI–theo dõi; AI đề xuất, bác sĩ quyết định.</li>
+      <li><b>Khối lõi:</b> Face AI (ảnh chuẩn), NLP Y khoa, Gợi ý liệu trình (BYT/JAAD/EADV), Dashboard.</li>
+      <li><b>An toàn:</b> RBAC, AES‑256, TLS 1.3, audit; không định danh khuôn mặt.</li>
+      <li><b>Triển khai AWS:</b> S3+CloudFront (web), API Gateway + Lambda/FastAPI, Cognito, RDS (Postgres), S3 (ảnh), Qdrant (vector) / OpenSearch.</li>
+      <li><b>Vận hành:</b> Checklists intake → chụp ảnh → phân tích → duyệt → nhắc lịch → so sánh trước‑sau.</li>
+      <li><i>Cập nhật:</i> 2025-10-30</li>
+    </ul>
+    <ul class="en hidden">
+      <li><b>Goal:</b> Standardize intake–AI–follow‑up; AI suggests, doctor decides.</li>
+      <li><b>Core:</b> Face AI (standard photos), Medical NLP, Plan recommender (BYT/JAAD/EADV), Dashboard.</li>
+      <li><b>Safety:</b> RBAC, AES‑256, TLS 1.3, audits; no facial identification.</li>
+      <li><b>AWS stack:</b> S3+CloudFront, API Gateway + Lambda/FastAPI, Cognito, RDS (Postgres), S3 (images), Qdrant/OpenSearch.</li>
+      <li><b>Ops:</b> Checklists intake → imaging → analysis → review → reminders → before/after.</li>
+      <li><i>Updated:</i> 2025-10-30</li>
+    </ul>
+    <div class="ackbox">
+      <input type="checkbox" id="ack-1"> <label for="ack-1" class="vi">Tôi đã hiểu phần này</label><label for="ack-1" class="en hidden">I understand this section</label>
+    </div>
+  </section>
+
+  <section id="flow" class="card step locked" data-step="2">
+    <h2 class="vi">Quy trình 5 bước</h2>
+    <h2 class="en hidden">Five‑step flow</h2>
+    <div class="step-body">
+      <ol class="vi">
+        <li>Tiếp nhận & đồng thuận → hỏi bệnh cấu trúc → chụp ảnh chuẩn.</li>
+        <li>Face AI → phân đoạn/nhận diện → chỉ số GAGS/MASI + heatmap.</li>
+        <li>Gợi ý liệu trình A/B/C theo BYT/JAAD/EADV + kiểm CCĐ.</li>
+        <li>Bác sĩ duyệt → quyết định cuối + lý do (audit).</li>
+        <li>Theo dõi → nhắc lịch, xử trí tác dụng phụ, so ảnh trước–sau.</li>
+      </ol>
+      <ol class="en hidden">
+        <li>Intake & consent → structured history → standardized photos.</li>
+        <li>Face AI → segmentation/detection → GAGS/MASI + heatmaps.</li>
+        <li>Planner A/B/C aligned with BYT/JAAD/EADV + safety checks.</li>
+        <li>Doctor review → final decision + rationale (audit).</li>
+        <li>Follow‑up → reminders, AE triage, before/after tracking.</li>
+      </ol>
+    </div>
+    <div class="ackbox">
+      <input type="checkbox" id="ack-2"> <label for="ack-2" class="vi">Tôi đã hiểu phần này</label><label for="ack-2" class="en hidden">I understand this section</label>
+    </div>
+  </section>
+
+  <section id="faceai" class="card step locked" data-step="3">
+    <h2 class="vi">Face AI — Ảnh chuẩn & Gallery</h2>
+    <h2 class="en hidden">Face AI — Standard shots & Gallery</h2>
+    <div class="step-body">
+      <div class="grid gallery">
+        <figure><img src="face_front.png" alt="Front"><figcaption class="vi"><small>Chính diện</small></figcaption><figcaption class="en hidden"><small>Front</small></figcaption></figure>
+        <figure><img src="face_left45.png" alt="Left45"><figcaption class="vi"><small>Nghiêng trái 45°</small></figcaption><figcaption class="en hidden"><small>Left 45°</small></figcaption></figure>
+        <figure><img src="face_right45.png" alt="Right45"><figcaption class="vi"><small>Nghiêng phải 45°</small></figcaption><figcaption class="en hidden"><small>Right 45°</small></figcaption></figure>
+        <figure><img src="region_cheek.png" alt="Cheek"><figcaption class="vi"><small>Cận vùng má</small></figcaption><figcaption class="en hidden"><small>Cheek close‑up</small></figcaption></figure>
+      </div>
+    </div>
+    <div class="ackbox">
+      <input type="checkbox" id="ack-3"> <label for="ack-3" class="vi">Tôi đã hiểu phần này</label><label for="ack-3" class="en hidden">I understand this section</label>
+    </div>
+  </section>
+
+  <section id="laser" class="card step locked" data-step="4">
+    <h2 class="vi">Laser & Ánh sáng — Bộ slide phân tích</h2>
+    <h2 class="en hidden">Laser & Light — Analyzed slides</h2>
+    <div class="step-body">
+      <div class="grid gallery">
+
+      <figure>
+        <img src="laser_slide_00.jpg" alt="Laser slide 1" loading="lazy">
+        <figcaption class="vi"><small>Khái niệm chung: Laser & ánh sáng trong da liễu</small></figcaption>
+        <figcaption class="en hidden"><small>Overview: Laser & light in dermatology</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_01.jpg" alt="Laser slide 2" loading="lazy">
+        <figcaption class="vi"><small>TRT — Thời gian thư giãn nhiệt</small></figcaption>
+        <figcaption class="en hidden"><small>TRT — Thermal Relaxation Time</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_02.jpg" alt="Laser slide 3" loading="lazy">
+        <figcaption class="vi"><small>Độ rộng xung: liên tục / ms / ns (Q‑switch)</small></figcaption>
+        <figcaption class="en hidden"><small>Pulse width: continuous / ms / ns (Q‑switch)</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_03.jpg" alt="Laser slide 4" loading="lazy">
+        <figcaption class="vi"><small>Cấu trúc da & tế bào sắc tố</small></figcaption>
+        <figcaption class="en hidden"><small>Skin structure & pigment cells</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_04.jpg" alt="Laser slide 5" loading="lazy">
+        <figcaption class="vi"><small>Mạch máu da: cấu trúc thành mạch</small></figcaption>
+        <figcaption class="en hidden"><small>Cutaneous vessels: wall structure</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_05.jpg" alt="Laser slide 6" loading="lazy">
+        <figcaption class="vi"><small>Lý thuyết chọn lọc sắc tố/mạch máu</small></figcaption>
+        <figcaption class="en hidden"><small>Selective targeting of pigment/vessels</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_06.jpg" alt="Laser slide 7" loading="lazy">
+        <figcaption class="vi"><small>Kích thước spot size ảnh hưởng độ sâu</small></figcaption>
+        <figcaption class="en hidden"><small>Spot size impacts penetration depth</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_07.jpg" alt="Laser slide 8" loading="lazy">
+        <figcaption class="vi"><small>Bảng tóm tắt các loại laser & ứng dụng</small></figcaption>
+        <figcaption class="en hidden"><small>Laser types & applications (summary)</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_08.jpg" alt="Laser slide 9" loading="lazy">
+        <figcaption class="vi"><small>So sánh ba mức độ xung</small></figcaption>
+        <figcaption class="en hidden"><small>Three pulse regimes (seconds/ms/ns)</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_09.jpg" alt="Laser slide 10" loading="lazy">
+        <figcaption class="vi"><small>Các tham số chính cần nắm</small></figcaption>
+        <figcaption class="en hidden"><small>Key operating concepts</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_10.jpg" alt="Laser slide 11" loading="lazy">
+        <figcaption class="vi"><small>Phân loại: Bóc tách vs Không bóc tách; sắc tố; mạch máu</small></figcaption>
+        <figcaption class="en hidden"><small>Taxonomy: Ablative vs non‑ablative; pigment; vascular</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_11.jpg" alt="Laser slide 12" loading="lazy">
+        <figcaption class="vi"><small>Ánh nắng & nguồn sáng; laser/diode/IPL/LED</small></figcaption>
+        <figcaption class="en hidden"><small>Sunlight & sources; laser/diode/IPL/LED</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_12.jpg" alt="Laser slide 13" loading="lazy">
+        <figcaption class="vi"><small>Nguyên lý hoạt động nguồn sáng</small></figcaption>
+        <figcaption class="en hidden"><small>Operating principles of sources</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_13.jpg" alt="Laser slide 14" loading="lazy">
+        <figcaption class="vi"><small>Bước sóng và đích tác động (acne/vascular/hair…)</small></figcaption>
+        <figcaption class="en hidden"><small>Wavelength windows & targets (acne/vascular/hair…)</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_14.jpg" alt="Laser slide 15" loading="lazy">
+        <figcaption class="vi"><small>Phản ứng quang nhiệt & athermal; tương tác ánh sáng‑mô</small></figcaption>
+        <figcaption class="en hidden"><small>Photothermal & athermal reactions; light‑tissue interaction</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_15.jpg" alt="Laser slide 16" loading="lazy">
+        <figcaption class="vi"><small>Bảng so sánh: Laser vs IPL vs LED</small></figcaption>
+        <figcaption class="en hidden"><small>Table: Laser vs IPL vs LED</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_16.jpg" alt="Laser slide 17" loading="lazy">
+        <figcaption class="vi"><small>Ví dụ lâm sàng: nám (melasma)</small></figcaption>
+        <figcaption class="en hidden"><small>Clinical example: melasma</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_17.jpg" alt="Laser slide 18" loading="lazy">
+        <figcaption class="vi"><small>Phổ hấp thụ: melanin/oxyhemoglobin/nước</small></figcaption>
+        <figcaption class="en hidden"><small>Absorption spectra: melanin/oxyhemoglobin/water</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_18.jpg" alt="Laser slide 19" loading="lazy">
+        <figcaption class="vi"><small>Ví dụ lâm sàng: tổn thương mạch máu/port‑wine stain</small></figcaption>
+        <figcaption class="en hidden"><small>Clinical example: vascular lesion / port‑wine stain</small></figcaption>
+      </figure>
+
+      <figure>
+        <img src="laser_slide_19.jpg" alt="Laser slide 20" loading="lazy">
+        <figcaption class="vi"><small>Phổ hấp thụ (nhắc lại) — lựa chọn bước sóng</small></figcaption>
+        <figcaption class="en hidden"><small>Absorption spectrum (recap) — choosing wavelengths</small></figcaption>
+      </figure>
+      </div>
+      <p class="vi"><small><b>Lưu ý:</b> Thông tin giáo dục, không gồm thông số máy. Chỉ dùng thiết bị được cấp phép, cài đặt bởi bác sĩ/đơn vị có thẩm quyền.</small></p>
+      <p class="en hidden"><small><b>Note:</b> Educational content; no device parameters. Use authorized devices with clinician‑approved settings.</small></p>
+    </div>
+    <div class="ackbox">
+      <input type="checkbox" id="ack-4"> <label for="ack-4" class="vi">Tôi đã hiểu phần này</label><label for="ack-4" class="en hidden">I understand this section</label>
+    </div>
+  </section>
+
+  <section id="therapy" class="card step locked" data-step="5">
+    <h2 class="vi">Minh hoạ kỹ thuật: Sóng âm & Điện trị liệu</h2>
+    <h2 class="en hidden">Therapy demos: Ultrasound & Electrotherapy</h2>
+    <div class="step-body">
+      <div class="grid gallery">
+        <figure><img src="therapy_ultrasound.png" alt="Ultrasound demo"><figcaption class="vi"><small>Siêu âm: cơ chế truyền cơ học qua gel; vùng quạt tia; độ sâu.</small></figcaption><figcaption class="en hidden"><small>Ultrasound: mechanical transmission via gel; fan‑beam; depth control.</small></figcaption></figure>
+        <figure><img src="therapy_electro.png" alt="Electro demo"><figcaption class="vi"><small>Điện trị liệu/RF: dòng giữa điện cực; tập trung năng lượng theo đường dẫn.</small></figcaption><figcaption class="en hidden"><small>Electrotherapy/RF: current between electrodes; focused energy along paths.</small></figcaption></figure>
+      </div>
+    </div>
+    <div class="ackbox">
+      <input type="checkbox" id="ack-5"> <label for="ack-5" class="vi">Tôi đã hiểu phần này</label><label for="ack-5" class="en hidden">I understand this section</label>
+    </div>
+  </section>
+
+  <section id="security" class="card step locked" data-step="6">
+    <h2 class="vi">Bảo mật & đạo đức</h2>
+    <h2 class="en hidden">Security & ethics</h2>
+    <div class="step-body">
+      <ul class="vi">
+        <li>AES‑256 khi lưu; TLS 1.3 khi truyền; RBAC qua Cognito; MFA.</li>
+        <li>Tách PII & dữ liệu lâm sàng; audit quyết định AI.</li>
+        <li>Không dùng Face AI cho nhận dạng danh tính.</li>
+      </ul>
+      <ul class="en hidden">
+        <li>AES‑256 at rest; TLS 1.3 in transit; RBAC via Cognito; MFA.</li>
+        <li>PII separated from clinical data; audit AI decisions.</li>
+        <li>No facial identification.</li>
+      </ul>
+    </div>
+    <div class="ackbox">
+      <input type="checkbox" id="ack-6"> <label for="ack-6" class="vi">Tôi đã hiểu phần này</label><label for="ack-6" class="en hidden">I understand this section</label>
+    </div>
+  </section>
+
+  <p class="footer">© 2025 BS Đào — DermAI • Cập nhật 2025-10-30</p>
+</div>
+
+<script>
+const $ = (s)=>document.querySelector(s);
+const $$ = (s)=>document.querySelectorAll(s);
+const viBtn = document.getElementById("btn-vi");
+const enBtn = document.getElementById("btn-en");
+const printBtn = document.getElementById("btn-print");
+
+function setLang(lang){
+  const isVI = lang==='vi';
+  $$(".vi").forEach(el=>el.classList.toggle('hidden', !isVI));
+  $$(".en").forEach(el=>el.classList.toggle('hidden', isVI));
+  viBtn.classList.toggle('active', isVI);
+  enBtn.classList.toggle('active', !isVI);
+  try { localStorage.setItem('dermai_lang', lang); } catch(e) { }
+}
+viBtn.addEventListener('click', ()=>setLang('vi'));
+enBtn.addEventListener('click', ()=>setLang('en'));
+printBtn.addEventListener('click', ()=>window.print());
+try { setLang(localStorage.getItem('dermai_lang')||'vi'); } catch(e) { setLang('vi'); }
+
+// Progressive unlock
+const steps = Array.from(document.querySelectorAll(".step"));
+function updateLocks(){
+  let progress = 0;
+  steps.forEach((sec, idx)=>{
+    const ack = sec.querySelector("input[type='checkbox']");
+    const ok = ack && ack.checked;
+    if(idx === 0) { sec.classList.remove('locked'); }
+    else {
+      const prevAck = steps[idx-1].querySelector("input[type='checkbox']");
+      const allowed = prevAck && prevAck.checked;
+      sec.classList.toggle('locked', !allowed);
+    }
+    if(ok) progress += 1;
+  });
+  const bar = document.getElementById("prog");
+  if(bar){
+    const pct = Math.round((progress/steps.length)*100);
+    bar.style.width = pct + "%";
+    bar.title = pct + "%";
+  }
+}
+document.querySelectorAll("input[type='checkbox']").forEach(cb=>cb.addEventListener('change', updateLocks));
+updateLocks();
+</script>
+</body>
+</html>
