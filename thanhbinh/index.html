@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Laser Suite — Thiết kế bởi Khương AI</title>
+<meta name="description" content="Mô phỏng & đào tạo laser da liễu: kiến thức, quy trình, điều khiển giọng nói, AI overlay.">
+<style>
+  :root{
+    --bg:#0b1220; --panel:#121a2a; --soft:#19243a; --text:#e9eefc; --muted:#99a6c9; --brand:#5df2d6; --accent:#71a7ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.6}
+  a{color:var(--brand);text-decoration:none} a:hover{text-decoration:underline}
+  header.hero{padding:48px 16px 24px;background:linear-gradient(180deg,#0b1220 0%,#0b1220 40%,#10192b 100%);}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 16px;}
+  .hero h1{font-size:40px;margin:0 0 10px;font-weight:800}
+  .hero p{color:var(--muted);margin:0 0 16px}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:rgba(93,242,214,.12);border:1px solid rgba(93,242,214,.3);color:var(--brand);padding:6px 12px;border-radius:999px;font-size:12px}
+  nav.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0}
+  nav.tabs a{padding:8px 12px;border-radius:12px;background:var(--soft);color:var(--text);border:1px solid #23304b}
+  section{padding:40px 0;border-top:1px solid #16223a}
+  h2{margin:0 0 8px;font-size:26px} h3{margin:24px 0 8px}
+  .grid-2{display:grid;grid-template-columns:1fr;gap:16px}
+  @media (min-width:900px){.grid-2{grid-template-columns:1fr 1fr}}
+  .card{background:var(--panel);border:1px solid #1b2844;border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .img-card{background:#0e1628;border:1px solid #1c2740;border-radius:14px;overflow:hidden}
+  .img-card img{display:block;width:100%;height:auto}
+  .gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+  .kpi{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+  .kpi .pill{background:var(--soft);border:1px solid #243150;color:#cfe3ff;padding:8px 12px;border-radius:12px;font-size:13px}
+  .btn{background:linear-gradient(180deg,#3a67ff,#2b57ea);color:white;border:none;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:700}
+  .btn-ghost{background:transparent;border:1px solid #2a3a5f;color:#cfe3ff;border-radius:10px;padding:8px 12px;cursor:pointer}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+  input,select{background:#0e1628;border:1px solid #223357;color:#e6efff;border-radius:10px;padding:8px 10px}
+  table{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border-radius:14px;border:1px solid #203055}
+  th,td{padding:10px 12px;border-bottom:1px solid #203055} th{background:#0f1a2e;text-align:left}
+  tr:last-child td{border-bottom:0}
+  .diagram{background:#0d1426;border:1px dashed #27406d;border-radius:16px;padding:14px}
+  .log{height:150px;overflow:auto;background:#0f1730;border:1px solid #24345c;border-radius:12px;padding:8px;font-family:ui-monospace,Consolas,Monaco,monospace;font-size:12px;white-space:pre-wrap}
+  footer{padding:40px 0;color:#9eb5e6;text-align:center}
+  .warning{color:#ffb3c1}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="wrap">
+    <span class="badge">Thiết kế bởi <strong>Khương AI</strong> · bản 2025-10-30 08:19</span>
+    <h1>Laser Suite · Mô phỏng điều trị & điều khiển từ xa</h1>
+    <p>Kiến thức cốt lõi · Quy trình lâm sàng · AI phân tích ảnh · Voice Control · Tự động hóa protocol.</p>
+    <nav class="tabs">
+      <a href="#intro">Giới thiệu</a>
+      <a href="#physics">Vật lý & Bước sóng</a>
+      <a href="#indications">Chỉ định</a>
+      <a href="#params">Thông số</a>
+      <a href="#remote">Điều khiển từ xa</a>
+      <a href="#ai">AI Face Scan</a>
+      <a href="#gallery">Thư viện ảnh</a>
+      <a href="#quiz">Quiz</a>
+    </nav>
+    <div class="kpi">
+      <div class="pill">Voice Control: <span id="vc-state">Tắt</span></div>
+      <div class="pill">Kết nối từ xa: <span id="remote-state">Chưa kết nối</span></div>
+      <div class="pill">AI Overlay: <span id="ai-state">Chưa tải ảnh</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="intro" class="grid-2">
+    <div class="card">
+      <h2>Laser & nguyên lý</h2>
+      <p><strong>LASER</strong> = Light Amplification by Stimulated Emission of Radiation. Tính chất: <em>đơn sắc</em>, <em>đồng pha</em>, <em>cùng hướng</em>. Đích điều trị (chromophore): melanin, hemoglobin, nước. Quy tắc: <em>quang nhiệt chọn lọc</em>.</p>
+      <div class="diagram">
+        <svg viewBox="0 0 900 180" width="100%" height="180" role="img" aria-label="Sơ đồ buồng cộng hưởng laser">
+          <rect x="10" y="30" width="600" height="120" rx="12" fill="#0c1a32" stroke="#285090"/>
+          <rect x="20" y="40" width="580" height="100" rx="10" fill="#0f2547" stroke="#2e5fa8"/>
+          <rect x="610" y="70" width="8" height="50" fill="#93b6ff"/>
+          <circle cx="750" cy="90" r="70" fill="none" stroke="#71a7ff" stroke-width="2"/>
+          <polygon points="618,95 730,95 820,95" fill="#5df2d6"/>
+          <text x="30" y="25" fill="#9eb5e6" font-size="12">Buồng cộng hưởng</text>
+          <text x="640" y="65" fill="#9eb5e6" font-size="12">Gương bán mạ</text>
+          <text x="735" y="165" fill="#9eb5e6" font-size="12">Thấu kính & chùm ra</text>
+        </svg>
+      </div>
+      <p class="warning"><strong>Lưu ý:</strong> Mô phỏng/đào tạo. Không thay thế hướng dẫn sử dụng thiết bị.</p>
+    </div>
+    <div class="card">
+      <h3>Điều khiển giọng nói</h3>
+      <p>Lệnh (vi-VN): <code>bắt đầu</code>, <code>dừng khẩn cấp</code>, <code>protocol rosacea / pws / lentigo / triệt lông / leg vein</code>, <code>tăng/giảm fluence</code>, <code>tăng/giảm thời gian xung</code>, <code>kết nối bác sĩ</code>, <code>ngắt kết nối</code>.</p>
+      <div class="row">
+        <button class="btn" id="voice-toggle">Bật Voice</button>
+        <button class="btn-ghost" id="voice-help">Danh sách lệnh</button>
+      </div>
+      <pre class="log" id="voice-log">Voice log…</pre>
+    </div>
+  </section>
+
+  <section id="physics">
+    <div class="card">
+      <h2>Bước sóng & Chromophore</h2>
+      <div class="grid-2">
+        <div>
+          <p><strong>595 nm</strong> (PDL): mạch nông. <br>
+             <strong>755 nm</strong> (Alex): melanin, sắc tố & lông. <br>
+             <strong>1064 nm</strong> (Nd:YAG): xuyên sâu, mạch sâu/da tối.</p>
+          <table>
+            <thead><tr><th>WL</th><th>Chromophore</th><th>Độ sâu</th><th>Gợi ý</th></tr></thead>
+            <tbody>
+              <tr><td>595</td><td>Oxyhemoglobin</td><td>Nông</td><td>Telangiectasia, PWS</td></tr>
+              <tr><td>755</td><td>Melanin</td><td>TB</td><td>Lentigo, triệt lông</td></tr>
+              <tr><td>1064</td><td>Hb giảm, nước tăng</td><td>Sâu</td><td>Leg vein, da IV–VI</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <div class="diagram">
+            <svg viewBox="0 0 600 220" width="100%" height="220">
+              <rect x="10" y="10" width="580" height="200" rx="12" fill="#0b1731" stroke="#294c82"/>
+              <circle cx="120" cy="120" r="12" fill="#ff5b78"/><text x="95" y="155" fill="#ddd" font-size="12">Hgb</text>
+              <circle cx="300" cy="120" r="12" fill="#111"/><text x="280" y="155" fill="#ddd" font-size="12">Melanin</text>
+              <circle cx="480" cy="120" r="12" fill="#5cc4ff"/><text x="465" y="155" fill="#ddd" font-size="12">Nước</text>
+              <rect x="60" y="60" width="40" height="6" fill="#ff6a83"/><text x="58" y="50" fill="#cfe3ff" font-size="12">595</text>
+              <rect x="240" y="60" width="40" height="6" fill="#7a5cff"/><text x="238" y="50" fill="#cfe3ff" font-size="12">755</text>
+              <rect x="420" y="60" width="40" height="6" fill="#66d7ff"/><text x="417" y="50" fill="#cfe3ff" font-size="12">1064</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="indications">
+    <div class="card">
+      <h2>Chỉ định & an toàn</h2>
+      <div class="grid-2">
+        <div>
+          <ul>
+            <li>Mạch: telangiectasia, PWS, hemangioma, venous lake.</li>
+            <li>Sắc tố: lentigo, café-au-lait, Becker (thận trọng).</li>
+            <li>Bề mặt: đỏ sẹo, vết rạn, nếp nhăn quanh mắt/môi.</li>
+            <li>Triệt lông: tối ưu WL/spot/pulse theo skin type.</li>
+          </ul>
+          <h3>Lưu ý</h3>
+          <ul>
+            <li>Kính bảo hộ đúng WL; che mắt vùng hốc mắt.</li>
+            <li>Tránh da nhiễm trùng, bệnh lý nhạy sáng.</li>
+            <li>Patch test; với PDL end-point purpura thoáng qua.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="diagram">
+            <h3 style="margin:0 0 6px">Sơ đồ quy trình (SVG)</h3>
+            <svg viewBox="0 0 680 220" width="100%" height="200">
+              <rect x="10" y="20" width="140" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="22" y="45" fill="#dfe9ff">Khám/Đánh giá</text>
+              <path d="M150 40 L190 40" stroke="#5df2d6"/>
+              <rect x="190" y="20" width="140" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="198" y="45" fill="#dfe9ff">Chọn WL/Spot</text>
+              <path d="M330 40 L370 40" stroke="#5df2d6"/>
+              <rect x="370" y="20" width="140" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="388" y="45" fill="#dfe9ff">Làm mát/che</text>
+              <path d="M510 40 L550 40" stroke="#5df2d6"/>
+              <rect x="550" y="20" width="120" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="562" y="45" fill="#dfe9ff">Bắn & đánh giá</text>
+
+              <rect x="190" y="120" width="140" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="205" y="145" fill="#dfe9ff">Tăng/giảm FL</text>
+              <rect x="370" y="120" width="140" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="390" y="145" fill="#dfe9ff">Điều chỉnh PW</text>
+              <rect x="550" y="120" width="120" height="40" rx="8" fill="#223557" stroke="#3e66a8"/><text x="570" y="145" fill="#dfe9ff">Overlap</text>
+              <path d="M610 60 L610 120" stroke="#5df2d6"/>
+              <path d="M250 60 L250 120" stroke="#5df2d6"/>
+              <path d="M430 60 L430 120" stroke="#5df2d6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="params">
+    <div class="card">
+      <h2>Thông số tham khảo (Fitz & chỉ định)</h2>
+      <p class="warning">Bảng dùng cho <strong>đào tạo</strong>, không thay thế phác đồ chính thức.</p>
+      <table id="param-table">
+        <thead><tr><th>Chỉ định</th><th>I–II</th><th>III–IV</th><th>V–VI</th><th>WL</th></tr></thead>
+        <tbody>
+          <tr><td>Telangiectasia mặt</td><td>PDL 595: 6–10 J, 0.45–10 ms, 7–10 mm</td><td>PDL 595: 5–8 J, 1–10 ms, 7–10 mm</td><td>Nd:YAG 1064: 90–140 J, 10–30 ms, 3–6 mm</td><td>595/1064</td></tr>
+          <tr><td>Port-wine stain</td><td>PDL 595: 6–8 J, 0.45–1.5 ms, 10–12 mm</td><td>PDL 595: 5–7 J, 0.45–1.5 ms, 10–12 mm</td><td>Nd:YAG 1064: 80–120 J, 10–30 ms, 3–6 mm</td><td>595±1064</td></tr>
+          <tr><td>Lentigo</td><td>Alex 755: 20–30 J, 3 ms, 6–8 mm</td><td>Alex 755: 18–26 J, 3 ms, 6–8 mm</td><td>1064 QS/LP (thận trọng)</td><td>755</td></tr>
+          <tr><td>Triệt lông</td><td>Alex 755: 14–20 J, 3–20 ms, 12–18 mm</td><td>Diode 810/1064: 10–18 J, 10–30 ms, 12–18 mm</td><td>Nd:YAG 1064: 30–50 J, 20–40 ms, 12–18 mm</td><td>755/810/1064</td></tr>
+          <tr><td>Leg veins</td><td>Nd:YAG 1064: 110–160 J, 10–30 ms, 3–6 mm</td><td>Nd:YAG 1064: 100–140 J, 10–30 ms, 3–6 mm</td><td>Nd:YAG 1064: 90–130 J, 10–30 ms, 3–6 mm</td><td>1064</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Tự động hoá Protocol</h3>
+      <div class="row">
+        <label>Protocol
+          <select id="proto">
+            <option value="rosacea">Rosacea / Telangiectasia</option>
+            <option value="pws">Port-wine Stain</option>
+            <option value="lentigo">Lentigo</option>
+            <option value="hair">Triệt lông</option>
+            <option value="legvein">Tĩnh mạch chân</option>
+          </select>
+        </label>
+        <label>Fitzpatrick
+          <select id="fitz">
+            <option>I–II</option><option>III–IV</option><option>V–VI</option>
+          </select>
+        </label>
+        <button class="btn" id="apply-proto">Áp dụng</button>
+      </div>
+
+      <div class="grid-2" style="margin-top:12px">
+        <div class="card">
+          <h3>Thông số hiện tại</h3>
+          <div class="row">
+            <label>WL <input id="wl" value="595"></label>
+            <label>Fluence (J/cm²) <input id="fluence" value="7.0"></label>
+            <label>Pulse (ms) <input id="pulse" value="1.5"></label>
+            <label>Spot (mm) <input id="spot" value="10"></label>
+          </div>
+          <div class="row" style="margin-top:8px">
+            <button class="btn-ghost" id="inc-fl">+ Fluence</button>
+            <button class="btn-ghost" id="dec-fl">− Fluence</button>
+            <button class="btn-ghost" id="inc-pw">+ Pulse</button>
+            <button class="btn-ghost" id="dec-pw">− Pulse</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Trạng thái bắn mô phỏng</h3>
+          <div class="row">
+            <button class="btn" id="start">Bắt đầu</button>
+            <button class="btn-ghost" id="stop">Dừng khẩn cấp</button>
+          </div>
+          <pre class="log" id="sim-log">Chưa chạy…</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="remote">
+    <div class="card">
+      <h2>Kết nối bác sĩ từ xa (mô phỏng)</h2>
+      <div class="row">
+        <button class="btn" id="remote-connect">Kết nối</button>
+        <button class="btn-ghost" id="remote-disconnect">Ngắt</button>
+      </div>
+      <pre class="log" id="remote-log">Remote log…</pre>
+    </div>
+  </section>
+
+  <section id="ai">
+    <div class="card">
+      <h2>AI Face Scan — Heatmap đỏ/nâu</h2>
+      <div class="row">
+        <input type="file" id="img-input" accept="image/*">
+        <label>Ngưỡng đỏ <input id="thr-red" type="range" min="0" max="255" value="150"></label>
+        <label>Ngưỡng nâu <input id="thr-brown" type="range" min="0" max="255" value="130"></label>
+      </div>
+      <canvas id="canvas" style="width:100%;max-width:900px;aspect-ratio:16/9;background:#0c1426;border:1px solid #223357;border-radius:12px"></canvas>
+    </div>
+  </section>
+
+  <section id="gallery">
+    <div class="card">
+      <h2>Thư viện hình ảnh</h2>
+      <div class="gallery">
+        <figure class="img-card"><img src="assets/images/img001.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img002.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img003.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img004.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img005.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img006.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img007.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img008.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img009.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img010.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img011.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img012.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img013.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img014.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img015.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img016.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img017.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img018.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img019.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img020.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img021.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img022.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img023.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img024.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img025.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img026.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img027.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img028.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img029.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img030.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img031.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img032.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img033.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img034.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img035.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img036.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img037.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img038.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img039.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img040.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img041.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img042.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img043.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img044.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img045.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img046.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img047.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img048.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img049.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img050.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img051.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img052.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img053.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img054.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img055.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img056.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img057.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img058.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img059.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img060.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img061.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img062.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img063.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img064.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img065.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img066.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img067.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img068.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img069.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img070.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img071.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img072.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img073.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img074.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img075.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img076.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img077.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img078.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img079.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img080.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img081.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img082.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img083.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img084.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img085.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+<figure class="img-card"><img src="assets/images/img086.jpg" alt="clinical image" loading="lazy" decoding="async"/></figure>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="card">
+      <h2>Quiz nhanh</h2>
+      <ol id="quiz-list">
+        <li>Bước sóng nào ưu tiên mạch nông? 
+          <label><input type="radio" name="q1" value="595">595 nm</label>
+          <label><input type="radio" name="q1" value="755">755 nm</label>
+        </li>
+        <li>Da Fitz V–VI điều trị mạch sâu an toàn hơn với:
+          <label><input type="radio" name="q2" value="1064">1064 nm</label>
+          <label><input type="radio" name="q2" value="595">595 nm</label>
+        </li>
+      </ol>
+      <button class="btn" id="quiz-submit">Chấm điểm</button>
+      <div id="quiz-result" style="margin-top:10px"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>© 2025-10-30 08:19 · Thiết kế bởi Khương AI · Demo đào tạo.</p>
+  </div>
+</footer>
+
+<script>
+// Helper log
+const log = (id, msg) => { const el = document.getElementById(id); el.textContent += "\\n" + msg; el.scrollTop = el.scrollHeight; };
+
+// Voice
+let recog, voiceOn=false;
+document.getElementById('voice-help').onclick = () => alert("Lệnh: bắt đầu, dừng khẩn cấp, protocol rosacea/pws/lentigo/triệt lông/leg vein, tăng/giảm fluence, tăng/giảm thời gian xung, kết nối bác sĩ, ngắt kết nối.");
+document.getElementById('voice-toggle').onclick = () => {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { alert('Trình duyệt chưa hỗ trợ Web Speech API'); return; }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recog = new SR(); recog.lang='vi-VN'; recog.continuous=true; recog.interimResults=false;
+  recog.onresult = (e) => {
+    for (let i=e.resultIndex;i<e.results.length;i++) {
+      const t = e.results[i][0].transcript.trim().toLowerCase();
+      log('voice-log','🗣 ' + t); handleCommand(t);
+    }
+  };
+  recog.onend = () => { if (voiceOn) recog.start(); };
+  if (!voiceOn) { recog.start(); voiceOn=true; document.getElementById('vc-state').textContent='Bật'; document.getElementById('voice-toggle').textContent='Tắt Voice'; }
+  else { recog.stop(); voiceOn=false; document.getElementById('vc-state').textContent='Tắt'; document.getElementById('voice-toggle').textContent='Bật Voice'; }
+};
+function handleCommand(t){
+  if (t.includes('bắt đầu')||t.includes('start')) startSim();
+  if (t.includes('dừng')||t.includes('stop')) stopSim();
+  if (t.includes('kết nối')) remoteConnect();
+  if (t.includes('ngắt')) remoteDisconnect();
+  if (t.includes('protocol')){
+    if (t.includes('rosacea')) setProto('rosacea');
+    else if (t.includes('lentigo')) setProto('lentigo');
+    else if (t.includes('leg')) setProto('legvein');
+    else if (t.includes('triệt')||t.includes('hair')) setProto('hair');
+    else if (t.includes('pws')) setProto('pws');
+  }
+  if (t.includes('tăng fluence')) adj('fluence', +0.5);
+  if (t.includes('giảm fluence')) adj('fluence', -0.5);
+  if (t.includes('tăng thời gian xung')) adj('pulse', +1);
+  if (t.includes('giảm thời gian xung')) adj('pulse', -1);
+}
+
+// Presets
+const presets = {
+  rosacea: { wl:595, flI:"7.0", flM:"6.0", flD:"1064:110", pw:"1.5", spot:"10" },
+  pws:     { wl:595, flI:"7.5", flM:"6.5", flD:"1064:100", pw:"0.45", spot:"12" },
+  lentigo: { wl:755, flI:"25",  flM:"22",  flD:"1064:QS",  pw:"3",   spot:"6"  },
+  hair:    { wl:755, flI:"18",  flM:"16",  flD:"1064:40",  pw:"20",  spot:"15" },
+  legvein: { wl:1064,flI:"140", flM:"125", flD:"110",      pw:"20",  spot:"4"  }
+};
+
+function setProto(key){
+  const f = document.getElementById('fitz').value;
+  const p = presets[key]; if (!p) return;
+  let fl = p.flI;
+  if (f==='III–IV') fl = p.flM;
+  if (f==='V–VI') fl = (p.flD||p.flM);
+  if (String(fl).includes(":")) { document.getElementById('wl').value = String(fl).split(":")[0]; fl = String(fl).split(":")[1]; }
+  else document.getElementById('wl').value = p.wl;
+  document.getElementById('fluence').value = fl;
+  document.getElementById('pulse').value = p.pw;
+  document.getElementById('spot').value = p.spot;
+  log('sim-log','Áp dụng ' + key.toUpperCase() + ' cho ' + f + ' → FL=' + fl);
+}
+document.getElementById('apply-proto').onclick = () => setProto(document.getElementById('proto').value);
+
+function adj(id, delta){
+  const el = document.getElementById(id);
+  let v = parseFloat(el.value||0); v += delta; v = Math.max(0, Math.round(v*10)/10); el.value = v.toFixed(1);
+  log('sim-log', (delta>0?'+':'−') + id + ' → ' + el.value);
+}
+document.getElementById('inc-fl').onclick = () => adj('fluence', +0.5);
+document.getElementById('dec-fl').onclick = () => adj('fluence', -0.5);
+document.getElementById('inc-pw').onclick = () => adj('pulse', +1);
+document.getElementById('dec-pw').onclick = () => adj('pulse', -1);
+
+// Simulation
+let running=false, timer;
+function startSim(){
+  if (running) return; running=true;
+  document.getElementById('sim-log').textContent='Bắt đầu mô phỏng…';
+  let shots=0;
+  timer = setInterval(()=>{
+    shots++;
+    const wl=document.getElementById('wl').value, fl=document.getElementById('fluence').value, pw=document.getElementById('pulse').value, sp=document.getElementById('spot').value;
+    log('sim-log', '#'+shots+'  WL='+wl+'nm · FL='+fl+'J/cm² · PW='+pw+'ms · Spot='+sp+'mm → endpoint: ok');
+    if (shots>=12) stopSim();
+  }, 700);
+}
+function stopSim(){ running=false; clearInterval(timer); log('sim-log','⛔ Dừng mô phỏng.'); }
+document.getElementById('start').onclick = startSim;
+document.getElementById('stop').onclick  = stopSim;
+
+// Remote (mock)
+function remoteConnect(){ document.getElementById('remote-state').textContent='Đã kết nối'; log('remote-log','Kết nối thành công (mô phỏng).'); }
+function remoteDisconnect(){ document.getElementById('remote-state').textContent='Chưa kết nối'; log('remote-log','Đã ngắt kết nối.'); }
+document.getElementById('remote-connect').onclick = remoteConnect;
+document.getElementById('remote-disconnect').onclick = remoteDisconnect;
+
+// AI canvas overlay
+const cvs = document.getElementById('canvas'); const ctx = cvs.getContext('2d');
+let baseImg = new Image();
+function drawOverlay(){
+  if (!baseImg.src) return;
+  const ratio = window.devicePixelRatio || 1;
+  cvs.width = Math.floor(cvs.clientWidth*ratio); cvs.height = Math.floor(cvs.clientHeight*ratio);
+  ctx.setTransform(ratio,0,0,ratio,0,0);
+  const iw=baseImg.width, ih=baseImg.height;
+  const scale = Math.min(cvs.clientWidth/iw, cvs.clientHeight/ih);
+  const dw=iw*scale, dh=ih*scale, dx=(cvs.clientWidth-dw)/2, dy=(cvs.clientHeight-dh)/2;
+  ctx.drawImage(baseImg, dx, dy, dw, dh);
+  const imgData = ctx.getImageData(dx, dy, dw, dh);
+  const data = imgData.data;
+  const thrR = +document.getElementById('thr-red').value;
+  const thrB = +document.getElementById('thr-brown').value;
+  for (let i=0;i<data.length;i+=4){
+    const r=data[i], g=data[i+1], b=data[i+2];
+    const isRed = (r>thrR && r>g*1.2 && r>b*1.2);
+    const brightness = 0.2126*r+0.7152*g+0.0722*b;
+    const isBrown = (brightness<200 && r>60 && g>40 && b<thrB);
+    if (isRed || isBrown){
+      data[i]   = isRed?255:180;
+      data[i+1] = isRed?64:100;
+      data[i+2] = isRed?64:60;
+      data[i+3] = isRed?110:90;
+    } else { data[i+3] = 200; }
+  }
+  ctx.putImageData(imgData, dx, dy);
+  document.getElementById('ai-state').textContent='Đã phân tích';
+}
+document.getElementById('img-input').onchange = (e)=>{ const f=e.target.files[0]; if(!f) return; const url=URL.createObjectURL(f); baseImg = new Image(); baseImg.onload=drawOverlay; baseImg.src=url; };
+document.getElementById('thr-red').oninput = drawOverlay;
+document.getElementById('thr-brown').oninput = drawOverlay;
+window.addEventListener('resize', drawOverlay);
+
+// Quiz
+document.getElementById('quiz-submit').onclick = ()=>{
+  let score = 0;
+  if (document.querySelector('input[name="q1"]:checked')?.value==='595') score++;
+  if (document.querySelector('input[name="q2"]:checked')?.value==='1064') score++;
+  const res = document.getElementById('quiz-result');
+  res.textContent = 'Điểm: ' + score + '/2 — ' + (score===2 ? 'Tuyệt vời!' : 'Hãy xem lại phần bước sóng.');
+};
+</script>
+</body>
+</html>
